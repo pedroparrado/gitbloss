@@ -9,7 +9,7 @@ module load /app/modules/languages/python/2.7.11
 
 for ((i=3; i<=11; i+=4))
 do
-    python surfmct.py $i 100 &
+    python surfmct.py $i 1000 &
 done
  
 
