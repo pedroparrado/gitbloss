@@ -41,7 +41,8 @@ for p in P:
     x.append(p)
     y.append(per)
     t.append(end-start)
-    print p,per,end-start,end-time.time()
+    print "Simulation finished for L="+str(L)+"and p="+str(p)
+    print per,end-start,-end+time.time()
 
 '''  #bin search
 for i in range(Nsteps):
