@@ -30,8 +30,8 @@ t=[]
 
 
 print "Work L="+str(L)+", Nit="+str(Nit)
-a=.05
-b=.12
+a=.02
+b=.04
 P=np.linspace(a,b,Nsteps)
 for p in P:
     start=time.time()
