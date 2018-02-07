@@ -491,7 +491,7 @@ def blossomopZ(X,L):#]
     return sol
               
 
-def bfsx(a,b,S,L):#]
+def bfsxOLD(a,b,S,L):#highly inefficient
     #if a==b, means that the match is to the border
     if a==b:
         name=S[a].name
@@ -553,6 +553,98 @@ def bfsx(a,b,S,L):#]
                 else:
                     paths.append(path)
     return []     
+
+
+
+
+
+def bfsx(a,b,S,L):#]
+    #if a==b, means that the match is to the border
+    name=S[a].name
+    if a==b:
+        path=[]           
+        i=S[a].i
+        j=S[a].j
+        t=S[a].t
+        if name=="Z":
+            #trace the shortest horizontal path to the border 
+            
+            #in this case the shortest is to the top
+            if (L-t)<min((i+1),(L-i-1)):
+                return path
+            
+            if (i+1)<(L-i-1):
+                #path from left to 'a'                
+                for n in range(i+1):
+                    path.append(indexq(n,j,1,t,L))
+            else:
+                #path from right to 'a'                
+                for n in range(L-i-1):
+                    path.append(indexq(L-1-n,j,1,t,L))
+ 
+        if name=="X":
+            #trace the shortest vertical path to the border
+            #in this case the shortest is to the top
+            if (L-t)<min((j+1),(L-j-1)):
+                return path
+            if (j+1)<(L-j-1):
+                #path bottom to 'a'
+                for n in range(j+1):
+                    path.append(indexq(i,n,1,t,L))
+            else:
+                #path from top to 'a'
+                for n in range(L-j-1):
+                    path.append(indexq(i,L-1-n,1,t,L))
+                    
+        return path
+
+        
+    ia=S[a].i
+    ja=S[a].j
+    ta=S[a].t
+        
+    ib=S[b].i
+    jb=S[b].j
+    path=[]
+    #the paths work differently for X and Z stabilizers
+    if name=="Z":
+        
+        ipath=np.linspace(min(ia,ib)+1,max(ia,ib), abs(ia-ib))
+        jpath=np.linspace(min(ja,jb),max(ja,jb)-1, abs(ja-jb))
+        
+        #vertical path
+        if len(ipath<1):
+            for j in jpath:
+                path.append(indexq(ia,int(j),0,ta,L))
+            return path
+        #not only vertical path
+        for i in ipath:
+            path.append(indexq(int(i),ja,1,ta,L))
+        for j in jpath:
+            path.append(indexq(ib,int(j),0,ta,L))
+        return path
+        
+    #the paths work differently for X and Z stabilizers
+    if name=="X":
+        
+        ipath=np.linspace(min(ia,ib),max(ia,ib)-1, abs(ia-ib))
+        jpath=np.linspace(min(ja,jb)+1,max(ja,jb), abs(ja-jb))
+        
+        #vertical path
+        if len(ipath<1):
+            for j in jpath:
+                path.append(indexq(ia,int(j),1,ta,L))
+            return path
+        #not only vertical path
+        for i in ipath:
+            path.append(indexq(int(i),ja,0,ta,L))
+        for j in jpath:
+            path.append(indexq(ib,int(j),1,ta,L))
+        return path
+    
+    
+    
+    return []  
 '''
 def plotpathx(a,b,path,L,col='y',marker='$Z$', mize=7):#]
     for n in path:
